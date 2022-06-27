@@ -6,6 +6,8 @@ import styles from './index.module.scss';
 
 import type { Palette } from '../lib/types/color';
 
+const baseImgUrl = 'https://s3.eu-west-1.wasabisys.com/mavrica/';
+
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [palettes, setPalettes] = useState<Palette[]>([]);
@@ -17,7 +19,9 @@ const Landing = () => {
         count,
         start,
       });
-      setPalettes([...palettes, ...data]);
+      const newPalettes = [...palettes, ...data];
+
+      setPalettes(newPalettes);
     } catch (e) {
       console.log(e);
     } finally {
@@ -26,13 +30,12 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    getPalettes({ count: 1, start: 0 });
+    getPalettes({ count: 10, start: 0 });
   }, []);
 
   const loadMore = async () => {
-    const count = 1;
+    const count = 10;
     const start = palettes.length;
-
     await getPalettes({ count, start });
   };
 
@@ -41,17 +44,18 @@ const Landing = () => {
       <h1>Currently saved palettes</h1>
       {palettes.map(({ colors, name, sources }) => {
         return (
-          <div className={styles.paletteContainer} key={name}>
+          <div className={styles.paletteContainer} key={`palette-${name}`}>
             <h2 className={styles.paletteTitle}>{name}</h2>
             {sources.map((source) => {
+              const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
               return (
-                <div className={styles.imageContainer} key={source}>
+                <div className={styles.imageContainer} key={`image-${source}`}>
                   <Image
                     alt={name}
                     layout="fill"
                     objectFit="contain"
                     objectPosition="left top"
-                    src={`data:image/jpeg;base64, ${source}`}
+                    src={imgSource}
                   />
                 </div>
               );
@@ -74,8 +78,8 @@ const Landing = () => {
         );
       })}
       {isLoading && <div>Loading...</div>}
-      <button disabled={isLoading || palettes.length >= 154} onClick={loadMore}>
-        Just one more...
+      <button disabled={isLoading || palettes.length >= 299} onClick={loadMore}>
+        Load more
       </button>
     </div>
   );

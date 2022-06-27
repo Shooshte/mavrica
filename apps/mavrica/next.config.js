@@ -10,6 +10,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  images: {
+    domains: ['s3.eu-west-1.wasabisys.com'],
+  },
 };
 
 module.exports = withNx(nextConfig);

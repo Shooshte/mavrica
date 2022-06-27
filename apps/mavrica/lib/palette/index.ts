@@ -95,7 +95,7 @@ export const getBufferPalette = async (
     const consolidatedColors9 = consolidateColors(consolidatedColors8, 1250);
     const consolidatedColors10 = consolidateColors(consolidatedColors9, 500);
     const consolidatedColors11 = consolidateColors(consolidatedColors10, 250);
-    const consolidatedColors12 = consolidateColors(consolidatedColors11, 5);
+    const consolidatedColors12 = consolidateColors(consolidatedColors11, 10);
     const sortedColors = consolidatedColors12.sort((a, b) => b.count - a.count);
 
     const finalColors = sortedColors.map((c) => {
