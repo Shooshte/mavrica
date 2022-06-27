@@ -33,5 +33,5 @@ export const getSeedKeys = async (): Promise<string[]> => {
   };
 
   const data = await s3.listObjectsV2(params).promise();
-  return data.Contents.map((obj) => obj.Key);
+  return data.Contents.map((obj) => obj.Key).reverse();
 };
