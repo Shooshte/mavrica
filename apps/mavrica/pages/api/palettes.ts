@@ -17,7 +17,7 @@ const handler = async (
     });
 
     const parsedPalettes = await Promise.all(
-      allPalletes.slice(0, 10).map(async (palette) => {
+      allPalletes.map(async (palette) => {
         const sources = await Promise.all(
           palette.sources.map(async (source) => {
             const fileBuffer = await getFile(source);
@@ -36,12 +36,6 @@ const handler = async (
     console.log(e);
     res.status(500).json(e.message);
   }
-};
-
-export const config = {
-  api: {
-    responseLimit: false,
-  },
 };
 
 export default handler;

@@ -26,11 +26,11 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    getPalettes({ count: 5, start: 0 });
+    getPalettes({ count: 1, start: 0 });
   }, []);
 
   const loadMore = async () => {
-    const count = 5;
+    const count = 1;
     const start = palettes.length;
 
     await getPalettes({ count, start });
@@ -75,7 +75,7 @@ const Landing = () => {
       })}
       {isLoading && <div>Loading...</div>}
       <button disabled={isLoading || palettes.length >= 154} onClick={loadMore}>
-        Load more
+        Just one more...
       </button>
     </div>
   );
