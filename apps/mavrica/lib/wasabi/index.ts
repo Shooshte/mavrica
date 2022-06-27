@@ -28,8 +28,8 @@ export const getSeedKeys = async (): Promise<string[]> => {
   const s3 = createS3Client();
   const params = {
     Bucket: process.env.NX_WASABI_BUCKET,
-    Prefix: 'mavrica/',
-    StartAfter: 'mavrica/',
+    Prefix: 'seed/',
+    StartAfter: 'seed/',
   };
 
   const data = await s3.listObjectsV2(params).promise();
