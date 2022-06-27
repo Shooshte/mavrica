@@ -2,6 +2,8 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "mavrica": "apps/mavrica",
+    "mavrica-e2e": "apps/mavrica-e2e",
     "wasabi": "apps/wasabi"
   }
 }

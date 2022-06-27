@@ -1,0 +1,27 @@
+.imageContainer {
+  height: 500px;
+  grid-area: images;
+  position: relative;
+}
+
+.paletteContainer {
+  display: grid;
+  grid-template-areas: 'title title' 'images colors';
+}
+
+.paletteTitle {
+  grid-area: title;
+}
+
+.colorsContainer {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  grid-area: colors;
+  justify-content: flex-start;
+}
+
+.color {
+  height: 100px;
+  width: 100%;
+}
