@@ -1,19 +1,29 @@
+import neo4j from 'neo4j-driver';
 import { driver } from './driver';
 
 import type { Palette } from '../types/color';
 
-export const getPalettes = async (): Promise<Palette[]> => {
-  const session = driver.session();
+interface GetPalleteArgs {
+  count?: number;
+  start?: number;
+}
 
+export const getPalettes = async ({
+  count = 10,
+  start = 0,
+}: GetPalleteArgs): Promise<Palette[]> => {
+  const session = driver.session();
   const palettesQuery = `
     MATCH (p:Palette)-[:INCLUDES]->(c:Color)
     WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p
     MATCH (p)-[:USED_FOR]-(s:Source)
     WITH COLLECT(s.name) as SOURCES, COLORS, p
+    SKIP $start LIMIT $count
     RETURN COLORS AS colors, SOURCES as sources, p.name as name
   `;
+
   const readResults = await session.readTransaction((tx) =>
-    tx.run(palettesQuery)
+    tx.run(palettesQuery, { count: neo4j.int(count), start: neo4j.int(start) })
   );
 
   const palettes: Palette[] = readResults.records.map((record) => {

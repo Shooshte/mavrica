@@ -1,42 +1,45 @@
-import { getPalettes } from '../lib/db/palette';
-
-//import PaletteImage from '../components/palette/PaletteImage';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import type { InferGetServerSidePropsType } from 'next';
-
 import styles from './index.module.scss';
-import { getFile } from '../lib/wasabi';
 
-export const getStaticProps = async () => {
-  const palettes = await getPalettes();
+import type { Palette } from '../lib/types/color';
 
-  const parsedPalettes = await Promise.all(
-    palettes.map(async (palette) => {
-      const sources = await Promise.all(
-        palette.sources.map(async (source) => {
-          const fileBuffer = await getFile(source);
-          return fileBuffer.toString('base64');
-        })
-      );
+const Landing = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [palettes, setPalettes] = useState<Palette[]>([]);
 
-      return {
-        ...palette,
-        sources,
-      };
-    })
-  );
+  const getPalettes = async ({ count, start }) => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post('/api/palettes', {
+        count,
+        start,
+      });
+      setPalettes([...palettes, ...data]);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  return { props: { parsedPalettes } };
-};
+  useEffect(() => {
+    getPalettes({ count: 5, start: 0 });
+  }, []);
 
-const Landing = ({
-  parsedPalettes,
-}: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const loadMore = async () => {
+    const count = 5;
+    const start = palettes.length;
+
+    await getPalettes({ count, start });
+  };
+
   return (
     <div>
       <h1>Currently saved palettes</h1>
-      {parsedPalettes.map(({ colors, name, sources }) => {
+      {palettes.map(({ colors, name, sources }) => {
         return (
           <div className={styles.paletteContainer} key={name}>
             <h2 className={styles.paletteTitle}>{name}</h2>
@@ -70,6 +73,10 @@ const Landing = ({
           </div>
         );
       })}
+      {isLoading && <div>Loading...</div>}
+      <button disabled={isLoading || palettes.length >= 154} onClick={loadMore}>
+        Load more
+      </button>
     </div>
   );
 };

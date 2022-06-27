@@ -34,6 +34,19 @@ const SeedPalettes = ({
   useEffect(() => {
     const parsekey = async (key: string) => {
       try {
+        const newParsingStatuses = keysStatus.map((stateKey) => {
+          if (stateKey.key === key) {
+            return {
+              key,
+              status: 'Parsing',
+            };
+          }
+          return {
+            ...stateKey,
+          };
+        });
+        setKeysStatus(newParsingStatuses);
+
         await axios.post('/api/parseImage', { filePath: key });
 
         const newStatuses = keysStatus.map((stateKey) => {
@@ -63,10 +76,14 @@ const SeedPalettes = ({
         setKeysStatus(newStatuses);
       }
     };
-
-    const nextKey = keysStatus.find((key) => key.status === 'Waiting');
-    if (nextKey) {
-      parsekey(nextKey.key);
+    const isParsing = keysStatus.some((k) => k.status === 'Parsing');
+    if (isParsing) {
+      return;
+    } else {
+      const nextKey = keysStatus.find((key) => key.status === 'Waiting');
+      if (nextKey) {
+        parsekey(nextKey.key);
+      }
     }
   }, [keysStatus]);
 
