@@ -1,8 +1,10 @@
 import * as express from 'express';
+import * as cors from 'cors';
 
 import { handleError } from './app/helpers/error';
 
 const app = express();
+app.use(cors());
 
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to image-parser!' });
