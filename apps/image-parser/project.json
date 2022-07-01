@@ -1,16 +1,16 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/wasabi/src",
+  "sourceRoot": "apps/image-parser/src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/wasabi",
-        "main": "apps/wasabi/src/main.ts",
-        "tsConfig": "apps/wasabi/tsconfig.app.json",
-        "assets": ["apps/wasabi/src/assets"]
+        "outputPath": "dist/apps/image-parser",
+        "main": "apps/image-parser/src/main.ts",
+        "tsConfig": "apps/image-parser/tsconfig.app.json",
+        "assets": ["apps/image-parser/src/assets"]
       },
       "configurations": {
         "production": {
@@ -19,8 +19,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/wasabi/src/environments/environment.ts",
-              "with": "apps/wasabi/src/environments/environment.prod.ts"
+              "replace": "apps/image-parser/src/environments/environment.ts",
+              "with": "apps/image-parser/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -29,21 +29,21 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "wasabi:build"
+        "buildTarget": "image-parser:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/wasabi/**/*.ts"]
+        "lintFilePatterns": ["apps/image-parser/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/wasabi"],
+      "outputs": ["coverage/apps/image-parser"],
       "options": {
-        "jestConfig": "apps/wasabi/jest.config.ts",
+        "jestConfig": "apps/image-parser/jest.config.ts",
         "passWithNoTests": true
       }
     }

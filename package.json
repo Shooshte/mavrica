@@ -21,13 +21,13 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "jimp": "^0.16.0",
+    "morgan": "^1.10.0",
     "neo4j-driver": "^4.4.6",
     "next": "12.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "regenerator-runtime": "0.13.7",
-    "tslib": "^2.3.0",
-    "tus-node-server": "^0.6.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@nrwl/cli": "14.2.4",
