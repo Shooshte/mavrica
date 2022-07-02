@@ -1,18 +1,6 @@
-import * as express from 'express';
-import * as cors from 'cors';
+import { makeApp } from './app/server';
 
-import { handleError } from './app/helpers/error';
-import { wasabi } from './app/routes/wasabi';
-
-const app = express();
-app.use(cors());
-
-app.get('/api/status', (req, res) => {
-  res.send({ message: 'Server is up and running!' });
-});
-
-app.get('/api/wasabi', (req, res, next) => wasabi(req, res, next));
-app.use((err, req, res, next) => handleError(err, req, res));
+const app = makeApp();
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
