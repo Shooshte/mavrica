@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 
 app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to image-parser!' });
+  res.send({ message: 'Server is up and running!' });
 });
 
 app.get('/api/wasabi', (req, res, next) => wasabi(req, res, next));

@@ -1,4 +1,4 @@
-import type { ColorCount, RGB } from './types/color';
+import type { RGB } from './types/color';
 
 export const RGBToHex = ({ r, g, b }: RGB): string => {
   const decimalToHex = (decimal: number): string => {

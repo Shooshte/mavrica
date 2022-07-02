@@ -159,6 +159,7 @@ export const getBufferPalette = async (
   if (missingColorsCount > 0) {
     const colorsToAdd = bucketAverages
       .filter((bucket) => bucket.pixelCount >= minInclusionCount)
+      .filter((bucket) => bucket.colors.length > 0)
       .sort((a, b) => a.pixelCount - b.pixelCount)
       .map((bucket) => {
         return { hex: bucket.colors[0].hex };
