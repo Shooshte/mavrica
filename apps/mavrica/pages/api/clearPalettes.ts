@@ -1,4 +1,4 @@
-import { driver } from '../../lib/db/driver';
+import { driver } from '../../../../libs/db/driver';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 

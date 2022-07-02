@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 
-import { getSeedKeys } from '../../lib/wasabi';
+import { getSeedKeys } from '../../../../libs/wasabi';
 
 import styles from './seedPalettes.module.scss';
 

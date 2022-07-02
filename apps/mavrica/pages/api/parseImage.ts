@@ -1,7 +1,7 @@
-import { saveKeyPalette } from '../../lib/palette';
+import { saveKeyPalette } from '../../../../libs/palette';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { Palette } from '../../lib/types/color';
+import type { Palette } from '../../../../libs/types/color';
 
 const handler = async (
   req: NextApiRequest,

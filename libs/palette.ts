@@ -6,7 +6,7 @@ import { savePalette } from './db/palette';
 
 import type { Color, Palette } from './types/color';
 
-const INCLUSION_PERCENTAGE = 0;
+const INCLUSION_PERCENTAGE = 0.000001;
 const MAX_IMAGE_SIZE = 500; // max width or height of the image
 
 export const getBufferPalette = async (

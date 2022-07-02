@@ -1,6 +1,6 @@
-import { getPalettes } from '../../lib/db/palette';
+import { getPalettes } from '../../../../libs/db/palette';
 
-import type { Palette } from '../../lib/types/color';
+import type { Palette } from '../../../../libs/types/color';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (
