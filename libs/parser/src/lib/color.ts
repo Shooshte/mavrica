@@ -1,4 +1,4 @@
-import type { RGB } from './types/color';
+import type { RGB } from '../types/color';
 
 export const RGBToHex = ({ r, g, b }: RGB): string => {
   const decimalToHex = (decimal: number): string => {
@@ -88,18 +88,4 @@ export const getColorDistance = ({
   const relativeLuminance1 = getRelativeLuminance(color1);
   const relativeLuminance2 = getRelativeLuminance(color2);
   return Math.abs(relativeLuminance1 - relativeLuminance2);
-};
-
-interface CompareColorsArgs {
-  color1: RGB;
-  color2: RGB;
-}
-
-// TODO: write unit test for this
-const isSameColor = ({ color1, color2 }: CompareColorsArgs) => {
-  const rMatches = color1.r === color2.r;
-  const gMatches = color1.g === color2.g;
-  const bMatches = color1.b === color2.b;
-
-  return rMatches && gMatches && bMatches;
 };
