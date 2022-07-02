@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import styles from './index.module.scss';
 
-import type { Palette } from '../lib/types/color';
+import type { Palette } from '../../../libs/types/color';
 
 const baseImgUrl = 'https://s3.eu-west-1.wasabisys.com/mavrica/';
 
