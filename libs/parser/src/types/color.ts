@@ -17,7 +17,7 @@ export interface ColorCount {
   relativeLuminance: number;
 }
 
-type Temperature = 'warm' | 'cool' | 'neutral';
+export type Temperature = 'warm' | 'cool' | 'neutral';
 
 export interface Color {
   alternativeNames?: string[];

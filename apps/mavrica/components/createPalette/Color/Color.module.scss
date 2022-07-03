@@ -1,0 +1,23 @@
+.color {
+  height: 100px;
+  position: relative;
+  width: 100px;
+}
+
+.deleteButton,
+.pickButton {
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  position: absolute;
+  top: 5px;
+  width: 40px;
+}
+
+.deleteButton {
+  left: 5px;
+}
+
+.pickButton {
+  right: 5px;
+}

@@ -1,0 +1,19 @@
+.container,
+.colorsContainer {
+  align-items: flex-start;
+  display: flex;
+  justify-content: flex-start;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+.container {
+  flex-direction: column;
+}
+
+.imageContainer {
+  height: 500px;
+  position: relative;
+  width: 500px;
+}

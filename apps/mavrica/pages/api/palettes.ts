@@ -1,7 +1,7 @@
-import { getPalettes } from '../../../../libs/db/palette';
+import { getPalettes } from '@mavrica/parser';
 
-import type { Palette } from '../../../../libs/types/color';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import type { Palette } from '@mavrica/parser';
 
 const handler = async (
   req: NextApiRequest,

@@ -1,16 +1,11 @@
 import React from 'react';
 import Uppy from '@uppy/core';
-import Tus from '@uppy/tus';
+
 import { DragDrop } from '@uppy/react';
 
 const uppy = new Uppy({
+  autoProceed: false,
   restrictions: { allowedFileTypes: ['image/*'], maxNumberOfFiles: 1 },
-  autoProceed: true,
-});
-
-uppy.use(Tus, {
-  chunkSize: 1024,
-  endpoint: 'http://localhost:1080/uploads',
 });
 
 uppy.on('complete', (result) => {
@@ -21,6 +16,14 @@ uppy.on('complete', (result) => {
 
 uppy.on('error', (err) => {
   console.log('error: ', err.stack);
+});
+
+uppy.on('file-added', (file) => {
+  console.log('Added file', file);
+});
+
+uppy.on('file-removed', (file) => {
+  console.log('Removed file', file);
 });
 
 uppy.on('upload-error', (file, error, response) => {
