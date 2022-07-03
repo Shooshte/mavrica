@@ -34,6 +34,6 @@ export const getSeedKeys = async (): Promise<string[]> => {
   };
 
   const data = await s3.listObjectsV2(params).promise();
-  // @ts-expect-error obj.Key will always be defined here
+  // @ts-ignore obj.Key will always be defined here
   return data.Contents.map((obj) => obj?.Key);
 };

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import type { ParseResult } from '@mavrica/parser';
 
 import styles from './createPalette.module.scss';
-import testData from './temp/testData';
+import testData from '../../temp/testData';
 
 interface ColorManipArgs {
   bucket: string;

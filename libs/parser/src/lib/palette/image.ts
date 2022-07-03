@@ -80,11 +80,11 @@ export const getPixels = async (imageBuffer: Buffer) => {
     const roundedLuminance = roundToNearest(relativeLuminance, 11, 100);
     const hex = RGBToHex({ r: red, g: green, b: blue });
 
-    // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+    // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
     const luminanceIncluded = data[roundedLuminance] !== undefined;
 
     if (!luminanceIncluded) {
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       data[roundedLuminance] = {
         count: 1,
         colors: [
@@ -97,12 +97,12 @@ export const getPixels = async (imageBuffer: Buffer) => {
         roundedLuminance,
       };
     } else {
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       const newColors = data[roundedLuminance].colors.some(
-        // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+        // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
         (color) => color.hex === hex
       )
-        ? // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+        ? // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
           data[roundedLuminance].colors.map((color) => {
             if (color.hex === hex) {
               return {
@@ -115,15 +115,15 @@ export const getPixels = async (imageBuffer: Buffer) => {
             };
           })
         : [
-            // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+            // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
             ...data[roundedLuminance].colors,
             { hex, count: 1, relativeLuminance },
           ];
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       data[roundedLuminance] = {
-        // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+        // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
         count: data[roundedLuminance].count + 1,
-        // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+        // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
         colors: newColors.sort((a, b) => {
           if (a.count === b.count) {
             return b.relativeLuminance - a.relativeLuminance;

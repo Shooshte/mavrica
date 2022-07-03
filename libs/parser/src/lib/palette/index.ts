@@ -9,20 +9,20 @@ export const getBufferPalette = async (
   const pixelsData = await getPixels(imageBuffer);
 
   const bucketAverages = Object.keys(pixelsData).map((key) => {
-    // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+    // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
     const bucket = pixelsData[key];
 
     const averageLum =
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       bucket.colors.reduce((acc, color) => acc + color.relativeLuminance, 0) /
       bucket.colors.length;
 
     const pixelCount = bucket.colors.reduce(
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       (acc, color) => acc + color.count,
       0
     );
-    // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+    // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
     const closestHex = bucket.colors.reduce((acc, color) => {
       const proximity = Math.abs(averageLum - color.relativeLuminance);
       if (acc.proximity === undefined) {
@@ -41,15 +41,15 @@ export const getBufferPalette = async (
     }, {});
 
     const sortedColors = bucket.colors
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       .filter((color) => color.count > minInclusionCount)
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       .sort((a, b) => {
         return (
           averageLum - b.relativeLuminance - (averageLum - a.relativeLuminance)
         );
       })
-      // @ts-expect-error this is throwaway code, will refactor after I am satisfied with parsing results
+      // @ts-ignore this is throwaway code, will refactor after I am satisfied with parsing results
       .filter((color) => color.hex !== closestHex.hex);
 
     return {
