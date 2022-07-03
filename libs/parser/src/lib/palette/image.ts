@@ -17,6 +17,14 @@ export const resizeImage = async (
   const height = image.height;
   const width = image.width;
 
+  // If image is already small enough, no need to resize
+  if (height <= MAX_IMAGE_SIZE && width <= MAX_IMAGE_SIZE) {
+    const allPixels = height * width;
+    const minInclusionCount = (INCLUSION_PERCENTAGE * allPixels) / 100;
+
+    return { imageBuffer: imageBuffer, minInclusionCount };
+  }
+
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
