@@ -1,4 +1,4 @@
-import { driver } from '../../../../libs/db/driver';
+import { driver } from '@mavrica/parser';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 

@@ -9,7 +9,7 @@ export {
   getColorDistance,
 } from './lib/color';
 export { createS3Client, getFile, getSeedKeys } from './lib/wasabi';
-export {
+export type {
   RGBA,
   RGB,
   ColorCount,
@@ -19,3 +19,4 @@ export {
   ParseResult,
 } from './types/color';
 export { getPalettes } from './db/palette';
+export { driver } from './db/driver';
