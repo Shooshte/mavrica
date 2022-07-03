@@ -12,13 +12,17 @@ export const wasabi = async (
     const filePath = req.query['filePath'];
     if (!filePath || typeof filePath !== 'string') {
       // TODO: add more specific filePath validation here
-      next(error(400, 'Missing or invalid file path!'));
+      next(error(400, 'Missing or invalid file path.'));
       return;
     }
     const fileBuffer = await getFile(filePath);
     const paletteColors = await getBufferPalette(fileBuffer);
     res.send(paletteColors);
   } catch (e) {
+    // @ts-expect-error no idea how to fix this, will google later
+    if (e?.message === 'The specified key does not exist.') {
+      next(error(404, 'The specified key does not exist.'));
+    }
     // TODO: figure out how to properly type this
     // @ts-expect-error no idea how to fix this, will google later
     next(error(500, e.message));
