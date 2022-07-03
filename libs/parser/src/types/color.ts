@@ -32,3 +32,18 @@ export interface Palette {
   name: string;
   sources: string[];
 }
+
+export interface ParseResult {
+  bucket: string;
+  colors: {
+    hex: string;
+    count: number;
+    relativeLuminance: number;
+  }[];
+  closestHex: {
+    hex: string;
+    proximity: number;
+  };
+  averageLum: number;
+  pixelCount: number;
+}

@@ -1,4 +1,6 @@
-interface APIError {
+import type { NextFunction, Request, Response } from 'express';
+
+export interface APIError {
   status: number;
   error: Error;
 }
@@ -10,7 +12,12 @@ export const error = (status: number, message: string): APIError => {
   };
 };
 
-export const handleError = (err: APIError, req, res) => {
+export const handleError = (
+  err: APIError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   res.status(err.status || 500);
   res.send(err.error.message);
 };

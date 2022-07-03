@@ -1,6 +1,6 @@
 export * from './lib/parser';
 
-export { getBufferPalette, saveKeyPalette } from './lib/palette';
+export { getBufferPalette } from './lib/palette';
 export {
   RGBToHex,
   calcDecimalColor,
