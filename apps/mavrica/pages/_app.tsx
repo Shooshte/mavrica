@@ -4,7 +4,6 @@ import Head from 'next/head';
 import '@uppy/core/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 
-import '../styles/app.scss';
 import '../styles/reset.scss';
 
 function CustomApp({ Component, pageProps }: AppProps) {
@@ -13,7 +12,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to mavrica!</title>
       </Head>
-      <main className="app">
+      <main>
         <Component {...pageProps} />
       </main>
     </>
