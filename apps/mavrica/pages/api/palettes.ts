@@ -1,4 +1,5 @@
 import { getPalettes } from '@mavrica/parser';
+import { withSentry } from '@sentry/nextjs';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { Palette } from '@mavrica/parser';
@@ -20,4 +21,4 @@ const handler = async (
   }
 };
 
-export default handler;
+export default withSentry(handler);

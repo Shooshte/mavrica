@@ -1,4 +1,5 @@
 import { driver } from '@mavrica/parser';
+import { withSentry } from '@sentry/nextjs';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -17,4 +18,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<string>) => {
   }
 };
 
-export default handler;
+export default withSentry(handler);

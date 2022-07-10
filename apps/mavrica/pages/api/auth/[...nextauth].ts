@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import { withSentry } from '@sentry/nextjs';
 import { Neo4jAdapter } from '@next-auth/neo4j-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -26,4 +27,4 @@ export const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-export default handler;
+export default withSentry(handler);
