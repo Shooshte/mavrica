@@ -18,5 +18,5 @@ export type {
   Palette,
   ParseResult,
 } from './types/color';
-export { getPalettes } from './db/palette';
+export { getPalettes, getPalettesCount } from './db/palette';
 export { driver } from './db/driver';

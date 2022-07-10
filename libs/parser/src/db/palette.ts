@@ -8,6 +8,21 @@ interface GetPalleteArgs {
   start?: number;
 }
 
+export const getPalettesCount = async (): Promise<number> => {
+  const session = driver.session();
+  const palettesQuery = `
+    MATCH (p:Palette)-[:INCLUDES]->(c:Color)
+    WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p
+    MATCH (p)-[:USED_FOR]-(s:Source)
+    RETURN p
+  `;
+
+  const readResults = await session.readTransaction((tx) =>
+    tx.run(palettesQuery, {})
+  );
+  return readResults.records.length;
+};
+
 export const getPalettes = async ({
   count = 10,
   start = 0,

@@ -1,50 +1,90 @@
+import React from 'react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import Image from 'next/image';
+import { Virtuoso } from 'react-virtuoso';
 
 import styles from './index.module.scss';
 
 import type { Palette } from '@mavrica/parser';
+import type { Components } from 'react-virtuoso';
 
+// TODO: decide if this should be moved to .env or not
 const baseImgUrl = 'https://s3.eu-west-1.wasabisys.com/mavrica/';
+const batchSize = 5;
 
 const Landing = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [palettes, setPalettes] = useState<Palette[]>([]);
+  const [maxPalettesCount, setPalettesCount] = useState(batchSize);
 
-  const getPalettes = async ({ count, start }) => {
+  const getPaletteCount = useCallback(async () => {
     try {
-      setIsLoading(true);
-      const { data } = await axios.post('/api/palettes', {
-        count,
-        start,
-      });
-      const newPalettes = [...palettes, ...data];
-
-      setPalettes(newPalettes);
+      const { data } = await axios.get('/api/palettesCount');
+      setPalettesCount(data.count);
     } catch (e) {
       console.log(e);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }, [setPalettesCount]);
+
+  const endReached = useMemo(() => {
+    return palettes.length >= maxPalettesCount;
+  }, [maxPalettesCount, palettes]);
+
+  const palettesCount = useMemo(() => {
+    return palettes.length;
+  }, [palettes]);
+
+  const getPalettes = useCallback(
+    async ({ count = batchSize, start = palettesCount }) => {
+      try {
+        const { data } = await axios.post('/api/palettes', {
+          count,
+          start,
+        });
+        const newPalettes = [...palettes, ...data];
+        setPalettes(newPalettes);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [palettes, palettesCount]
+  );
+
+  const loadMore = useCallback(() => {
+    if (endReached) {
+      return;
+    }
+    return getPalettes({ count: batchSize, start: palettesCount });
+  }, [getPalettes, endReached, palettesCount]);
 
   useEffect(() => {
-    getPalettes({ count: 20, start: 0 });
+    getPalettes({ count: batchSize, start: 0 });
+    getPaletteCount();
   }, []);
 
-  // const loadMore = async () => {
-  //   const count = 10;
-  //   const start = palettes.length;
-  //   await getPalettes({ count, start });
-  // };
-
   return (
-    <section className={styles.container}>
-      <h1 className="heading-3">Saved palettes</h1>
-      {palettes.map(({ colors, name, sources }) => {
+    <Virtuoso
+      context={{
+        endReached,
+      }}
+      components={{
+        Footer: ListFooter,
+        Header: ListHeader,
+        List: ListContainer,
+      }}
+      data={palettes}
+      endReached={loadMore}
+      style={{
+        height: '100vh',
+        width: '100%',
+      }}
+      itemContent={(index, { colors, name, sources }) => {
         return (
-          <section className={styles.paletteContainer} key={`palette-${name}`}>
+          <section
+            className={styles.paletteContainer}
+            key={`palette-${index}-${name}`}
+          >
             <h2 className="heading-4">{name}</h2>
             <ul className={styles.colorsContainer}>
               {colors.map(({ hex }) => {
@@ -75,12 +115,29 @@ const Landing = () => {
             </ul>
           </section>
         );
-      })}
-      {isLoading && <div>Loading...</div>}
-      {/* <button disabled={isLoading || palettes.length >= 299} onClick={loadMore}>
-        Load more
-      </button> */}
-    </section>
+      }}
+    />
+  );
+};
+
+const ListHeader: Components['Header'] = () => {
+  return <h1 className={`heading-3 ${styles.heading}`}>Saved palettes</h1>;
+};
+
+const ListContainer: Components['List'] = React.forwardRef(
+  function ListContainer(props, ref) {
+    return <div className={styles.container} {...props} ref={ref} />;
+  }
+);
+
+const ListFooter: Components['Footer'] = ({ context }) => {
+  return (
+    <div className={styles.footer}>
+      {
+        // @ts-expect-error context type
+        context.endReached ? 'No more palettes to load.' : 'Loading palettes...'
+      }
+    </div>
   );
 };
 
