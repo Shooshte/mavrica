@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { driver } from '@mavrica/parser';
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       authorization: {
@@ -22,6 +22,8 @@ const handler = NextAuth({
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export default handler;

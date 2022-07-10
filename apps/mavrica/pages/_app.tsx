@@ -1,6 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { SessionProvider } from 'next-auth/react';
+
 import '@uppy/core/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 
@@ -13,9 +15,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to mavrica!</title>
       </Head>
-      <main>
-        <Component {...pageProps} />
-      </main>
+      <SessionProvider session={pageProps.session}>
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </SessionProvider>
     </>
   );
 }
