@@ -1,4 +1,4 @@
-export { getBufferPalette } from './lib/palette';
+// export { getBufferPalette } from './lib/palette';
 export {
   RGBToHex,
   calcDecimalColor,
