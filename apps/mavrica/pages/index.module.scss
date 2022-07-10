@@ -1,10 +1,14 @@
+@import '../styles/variables';
+
 .container {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 39px;
-  width: calc(100% - 39px - 39px);
+  padding: map-get($spacing-sizes, '1');
+  width: calc(
+    100% - map-get($spacing-sizes, '1') - map-get($spacing-sizes, '1')
+  );
   word-break: break-all;
   white-space: pre-wrap;
 }
@@ -12,30 +16,7 @@
 .paletteContainer {
   display: flex;
   flex-direction: column;
-  margin-bottom: 39px;
-}
-
-.paletteTitle {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-break: normal;
-  line-height: 175%;
-  margin-bottom: 21px;
-  margin-top: 0px;
-  max-width: 320px;
-  width: 100%;
-}
-
-.label {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 125%;
-  margin-bottom: 6px;
-  margin-top: 0px;
+  margin-bottom: map-get($spacing-sizes, '2');
 }
 
 .colorsContainer {
@@ -43,27 +24,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 21px;
+  margin-bottom: map-get($spacing-sizes, '3');
 }
 
 .color {
-  border: 1px solid #fff;
-  height: 32px;
-  margin-bottom: 6px;
-  margin-right: 6px;
+  height: 46px;
+  margin-bottom: map-get($spacing-sizes, '6');
+  margin-right: map-get($spacing-sizes, '6');
   position: relative;
-  width: 32px;
-}
-
-.color:after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: #000;
-  z-index: -1;
+  width: 46px;
 }
 
 .color:last-child {
@@ -77,6 +46,7 @@
 
 .imageContainer {
   cursor: pointer;
-  height: 100px;
+  height: 200px;
   position: relative;
+  margin-bottom: map-get($spacing-sizes, '5');
 }

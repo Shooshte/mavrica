@@ -30,7 +30,7 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    getPalettes({ count: 50, start: 0 });
+    getPalettes({ count: 20, start: 0 });
   }, []);
 
   // const loadMore = async () => {
@@ -41,31 +41,27 @@ const Landing = () => {
 
   return (
     <section className={styles.container}>
+      <h1 className="heading-3">Saved palettes</h1>
       {palettes.map(({ colors, name, sources }) => {
         return (
-          <div className={styles.paletteContainer} key={`palette-${name}`}>
-            <h2 className={styles.paletteTitle}>{name}</h2>
-            <label className={styles.label}>Palette colors</label>
-            <div className={styles.colorsContainer}>
+          <section className={styles.paletteContainer} key={`palette-${name}`}>
+            <h2 className="heading-4">{name}</h2>
+            <ul className={styles.colorsContainer}>
               {colors.map(({ hex }) => {
                 return (
-                  <div
+                  <li
                     className={styles.color}
                     key={hex}
                     style={{ backgroundColor: hex }}
                   />
                 );
               })}
-            </div>
-            <label className={styles.label}>Palette sources</label>
-            <div className={styles.sourcesContainer}>
+            </ul>
+            <ul className={styles.sourcesContainer}>
               {sources.map((source) => {
                 const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
                 return (
-                  <div
-                    className={styles.imageContainer}
-                    key={`image-${source}`}
-                  >
+                  <li className={styles.imageContainer} key={`image-${source}`}>
                     <Image
                       alt={name}
                       layout="fill"
@@ -73,11 +69,11 @@ const Landing = () => {
                       objectPosition="left top"
                       src={imgSource}
                     />
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          </div>
+            </ul>
+          </section>
         );
       })}
       {isLoading && <div>Loading...</div>}
