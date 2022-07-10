@@ -105,12 +105,18 @@ const Landing = () => {
               {sources.map((source) => {
                 const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
                 return (
-                  <Image
-                    alt={name}
-                    containerClassName={styles.imageContainer}
+                  <a
+                    href={imgSource}
                     key={source}
-                    src={imgSource}
-                  />
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Image
+                      alt={name}
+                      containerClassName={styles.imageContainer}
+                      src={imgSource}
+                    />
+                  </a>
                 );
               })}
             </div>
