@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Image from 'next/image';
+import ListPlaceholder from '../components/palettes/ListPlaceholder';
 import { Virtuoso } from 'react-virtuoso';
 
 import styles from './index.module.scss';
@@ -12,13 +13,13 @@ import type { Components } from 'react-virtuoso';
 
 // TODO: decide if this should be moved to .env or not
 const baseImgUrl = 'https://s3.eu-west-1.wasabisys.com/mavrica/';
-const batchSize = 5;
+export const BATCH_SIZE = 10;
 
 // TODO: add placeholders for images that are not yet loaded
 // TODO: add placeholders for first palette load
 const Landing = () => {
   const [palettes, setPalettes] = useState<Palette[]>([]);
-  const [maxPalettesCount, setPalettesCount] = useState(batchSize);
+  const [maxPalettesCount, setPalettesCount] = useState(BATCH_SIZE);
 
   const getPaletteCount = useCallback(async () => {
     try {
@@ -38,7 +39,7 @@ const Landing = () => {
   }, [palettes]);
 
   const getPalettes = useCallback(
-    async ({ count = batchSize, start = palettesCount }) => {
+    async ({ count = BATCH_SIZE, start = palettesCount }) => {
       try {
         const { data } = await axios.post('/api/palettes', {
           count,
@@ -57,11 +58,11 @@ const Landing = () => {
     if (endReached) {
       return;
     }
-    return getPalettes({ count: batchSize, start: palettesCount });
+    return getPalettes({ count: BATCH_SIZE, start: palettesCount });
   }, [getPalettes, endReached, palettesCount]);
 
   useEffect(() => {
-    getPalettes({ count: batchSize, start: 0 });
+    getPalettes({ count: BATCH_SIZE, start: 0 });
     getPaletteCount();
   }, []);
 
@@ -71,6 +72,7 @@ const Landing = () => {
         endReached,
       }}
       components={{
+        EmptyPlaceholder: ListPlaceholder,
         Footer: ListFooter,
         Header: ListHeader,
         List: ListContainer,

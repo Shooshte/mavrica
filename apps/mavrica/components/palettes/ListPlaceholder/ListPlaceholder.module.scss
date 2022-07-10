@@ -1,0 +1,72 @@
+@import '../../../styles/variables';
+
+$max-width: 500px;
+$placeholder-color: #f5f5f5;
+
+.heading {
+  background-color: $placeholder-color;
+  height: 26px;
+  margin-bottom: map-get($spacing-sizes, '4');
+  width: $max-width;
+}
+
+.paletteContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: map-get($spacing-sizes, '1');
+  max-width: $max-width;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.colorsContainer {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: map-get($spacing-sizes, '3');
+}
+
+.color {
+  background-color: $placeholder-color;
+  height: 46px;
+  margin-bottom: map-get($spacing-sizes, '6');
+  margin-right: map-get($spacing-sizes, '6');
+  position: relative;
+  width: 46px;
+}
+
+.color:last-child {
+  margin-right: 0px;
+}
+
+.sourcesContainer {
+  overflow: auto;
+  width: 100%;
+}
+
+.imageContainer {
+  aspect-ratio: 2/1;
+  background-color: $placeholder-color;
+  cursor: pointer;
+  height: 200px;
+  position: relative;
+  margin-bottom: map-get($spacing-sizes, '4');
+}
+
+@media only screen and (min-width: $tablet) {
+  .container {
+    padding: 0 map-get($spacing-sizes, '1') map-get($spacing-sizes, '1')
+      map-get($spacing-sizes, '1');
+    width: calc(
+      100% - map-get($spacing-sizes, '1') - map-get($spacing-sizes, '1')
+    );
+  }
+}
+
+@media only screen and (min-width: $desktop-small) {
+  .heading,
+  .container {
+    padding-left: calc($max-width / 3);
+  }
+}
