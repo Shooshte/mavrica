@@ -1,0 +1,16 @@
+@import '../../styles/variables';
+
+.invisible {
+  display: none;
+}
+
+.imageContainer {
+  align-items: center;
+  display: flex;
+  background-color: $placeholder-color;
+  justify-content: center;
+}
+
+.loaded {
+  background-color: transparent;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import Image from 'next/image';
+import Image from '../components/image';
 import ListPlaceholder from '../components/palettes/ListPlaceholder';
 import { Virtuoso } from 'react-virtuoso';
 
@@ -101,22 +101,19 @@ const Landing = () => {
                 );
               })}
             </ul>
-            <ul className={styles.sourcesContainer}>
+            <div className={styles.sourcesContainer}>
               {sources.map((source) => {
                 const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
                 return (
-                  <li className={styles.imageContainer} key={`image-${source}`}>
-                    <Image
-                      alt={name}
-                      layout="fill"
-                      objectFit="contain"
-                      objectPosition="left top"
-                      src={imgSource}
-                    />
-                  </li>
+                  <Image
+                    alt={name}
+                    containerClassName={styles.imageContainer}
+                    key={source}
+                    src={imgSource}
+                  />
                 );
               })}
-            </ul>
+            </div>
           </section>
         );
       }}

@@ -1,3 +1,5 @@
+import ImageLoading from '../../image/svg/loading';
+
 import styles from './ListPlaceholder.module.scss';
 
 const array = new Array(10);
@@ -27,7 +29,9 @@ const ListPlaceholder = () => {
               <li
                 className={styles.imageContainer}
                 key={`image-placeholder-${index}`}
-              ></li>
+              >
+                <ImageLoading />
+              </li>
             </ul>
           </section>
         );
