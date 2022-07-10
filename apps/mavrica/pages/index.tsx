@@ -14,6 +14,8 @@ import type { Components } from 'react-virtuoso';
 const baseImgUrl = 'https://s3.eu-west-1.wasabisys.com/mavrica/';
 const batchSize = 5;
 
+// TODO: add placeholders for images that are not yet loaded
+// TODO: add placeholders for first palette load
 const Landing = () => {
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [maxPalettesCount, setPalettesCount] = useState(batchSize);
@@ -85,7 +87,7 @@ const Landing = () => {
             className={styles.paletteContainer}
             key={`palette-${index}-${name}`}
           >
-            <h2 className="heading-4">{name}</h2>
+            <h2 className="heading-3">{name}</h2>
             <ul className={styles.colorsContainer}>
               {colors.map(({ hex }) => {
                 return (
@@ -121,7 +123,7 @@ const Landing = () => {
 };
 
 const ListHeader: Components['Header'] = () => {
-  return <h1 className={`heading-3 ${styles.heading}`}>Saved palettes</h1>;
+  return <h1 className={`heading-2 ${styles.heading}`}>Saved palettes</h1>;
 };
 
 const ListContainer: Components['List'] = React.forwardRef(
@@ -130,6 +132,7 @@ const ListContainer: Components['List'] = React.forwardRef(
   }
 );
 
+// TODO: add CTA once palette creator is live
 const ListFooter: Components['Footer'] = ({ context }) => {
   return (
     <div className={styles.footer}>
