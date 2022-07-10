@@ -2,7 +2,6 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "image-parser": "apps/image-parser",
     "mavrica": "apps/mavrica",
     "mavrica-e2e": "apps/mavrica-e2e",
     "parser": "libs/parser"
