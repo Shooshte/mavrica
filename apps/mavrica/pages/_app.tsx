@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 
 import '@uppy/core/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
+import '@uppy/dashboard/dist/style.css';
 
 import '../styles/reset.scss';
 import '../styles/global.scss';

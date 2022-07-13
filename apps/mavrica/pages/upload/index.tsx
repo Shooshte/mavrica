@@ -1,51 +1,49 @@
-import React from 'react';
+import { unstable_getServerSession } from 'next-auth/next';
+import { AwsS3Multipart } from 'uppy';
+
+import { Dashboard } from '@uppy/react';
 import Uppy from '@uppy/core';
 
-import { DragDrop } from '@uppy/react';
+import { getUppyNextS3MultipartOptions } from '../../lib/uppyMultipartOptions';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { FilenameGenParams } from '../api/wasabi/[endpoint]';
 
-const uppy = new Uppy({
-  autoProceed: false,
-  restrictions: { allowedFileTypes: ['image/*'], maxNumberOfFiles: 1 },
-});
+import type { GetServerSidePropsContext } from 'next';
+import type { Session } from 'next-auth';
 
-uppy.on('complete', (result) => {
-  const url = result.successful[0].uploadURL;
-  // TODO: post file url for processing here
-  console.log('upload complete: ', url);
-});
+const uppy = new Uppy();
+uppy.use(
+  AwsS3Multipart,
+  getUppyNextS3MultipartOptions<FilenameGenParams>(
+    // The endpoint you saved the earlier file at. No trailing slash.
+    '/api/wasabi',
+    // This is where we pass in the params used for filename generation
+    { prefix: 'test' }
+  )
+);
 
-uppy.on('error', (err) => {
-  console.log('error: ', err.stack);
-});
-
-uppy.on('file-added', (file) => {
-  console.log('Added file', file);
-});
-
-uppy.on('file-removed', (file) => {
-  console.log('Removed file', file);
-});
-
-uppy.on('upload-error', (file, error, response) => {
-  console.log('error with file:', file.id);
-  console.log('error message:', error);
-});
-
-const Upload = () => {
-  return (
-    <DragDrop
-      uppy={uppy}
-      locale={{
-        strings: {
-          // Text to show on the droppable area.
-          // `%{browse}` is replaced with a link that opens the system file selection dialog.
-          dropHereOr: 'Drop here or %{browse}',
-          // Used as the label for the link that opens the system file selection dialog.
-          browse: 'browse',
-        },
-      }}
-    />
-  );
+const FileUpload = ({ session }: { session: Session }) => {
+  console.log(session.user);
+  return <Dashboard uppy={uppy} />;
 };
 
-export default Upload;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: { session } };
+}
+
+export default FileUpload;
