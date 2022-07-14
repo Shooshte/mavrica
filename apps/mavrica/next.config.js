@@ -12,7 +12,10 @@ const nextConfig = {
     svgr: false,
   },
   images: {
-    domains: ['s3.eu-west-1.wasabisys.com'],
+    domains: [
+      's3.eu-west-1.wasabisys.com',
+      'mavrica.s3.eu-west-1.wasabisys.com',
+    ],
   },
 };
 

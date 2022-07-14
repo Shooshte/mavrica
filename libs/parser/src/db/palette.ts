@@ -106,3 +106,50 @@ export const savePalette = async (palette: Palette) => {
     });
   });
 };
+
+export interface Bucket {
+  colors: string[];
+  name: string;
+  closestHex: string;
+  averageLum: number;
+  id: string;
+  pixelCount: number;
+}
+export interface GetPaletteBucketsReturn {
+  source: {
+    id: string;
+    url: string;
+  };
+  buckets: Bucket[];
+}
+
+export const getPaletteBuckets = async (
+  paletteId: string
+): Promise<GetPaletteBucketsReturn> => {
+  const session = driver.session();
+  const readQuery = `
+    MATCH(s:Source)<-[cr1:CREATED_FROM]-(b:Bucket)<-[cr2:CREATED_FROM]-(p:Palette{id: $paletteId})
+      WITH COLLECT(b) as buckets, p, s
+      UNWIND buckets AS bucket
+      OPTIONAL MATCH (bucket)-[i:INCLUDES]->(c:Color)
+      WITH COLLECT(c.hex) AS Colors, bucket, s
+      WITH COLLECT({name: bucket.name, closestHex: bucket.closestHex, averageLum: bucket.averageLum, id: bucket.id, pixelCount: bucket.pixelCount, colors: Colors}) as Buckets, s
+    RETURN s AS Source, Buckets
+  `;
+
+  const readResult = await session.readTransaction((tx) =>
+    tx.run(readQuery, { paletteId })
+  );
+  const finalResult = readResult.records.map((record) => {
+    const buckets = record.get('Buckets');
+    const source = record.get('Source');
+
+    const returnData = {
+      buckets,
+      source: { ...source.properties },
+    };
+
+    return returnData;
+  });
+  return finalResult[0];
+};

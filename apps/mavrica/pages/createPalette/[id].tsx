@@ -1,48 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+
+import { getPaletteBuckets } from '@mavrica/parser';
 
 import BucketOptions from '../../components/createPalette/BucketOptions';
 import Color from '../../components/createPalette/Color';
 import Image from 'next/image';
 
-import type { ParseResult } from '@mavrica/parser';
-
 import styles from './createPalette.module.scss';
-import testData from '../../temp/testData';
+
+import type { InferGetServerSidePropsType } from 'next';
+import type { Bucket } from '@mavrica/parser';
 
 interface ColorManipArgs {
-  bucket: string;
+  bucketId: string;
   hex: string;
 }
 
-const imageSrc =
-  'https://s3.eu-west-1.wasabisys.com/mavrica/tests/the_houses_of_parliament_small.jpg';
+export const getServerSideProps = async (context) => {
+  const { id } = context.query;
+  // TODO: need to handle invalid ids here
+  const bucketsData = await getPaletteBuckets(id);
 
-const CreatePalette = () => {
-  const [bucketsData, setBucketsData] = useState<ParseResult[]>([]);
-
-  useEffect(() => {
-    // TODO: later on this will be replaced by loading data from the API using the URL ID param
-    setBucketsData(testData);
-  }, []);
-
-  const updateBucket = (bucket: ParseResult) => {
-    const newBucketsData = bucketsData.map((bucketData) => {
-      if (bucketData.bucket === bucket.bucket) {
-        return { ...bucket };
-      }
-      return {
-        ...bucketData,
-      };
-    });
-    setBucketsData(newBucketsData);
+  return {
+    props: {
+      initialBucketsData: bucketsData,
+    },
   };
+};
 
-  const removeColorChoice = ({ bucket, hex }: ColorManipArgs) => {
+const CreatePalette = ({
+  initialBucketsData: { buckets, source },
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [bucketsData, setBucketsData] = useState<Bucket[]>(buckets);
+
+  const removeColorChoice = ({ bucketId, hex }: ColorManipArgs) => {
     const newBucketsData = bucketsData.map((bucketData) => {
-      if (bucketData.bucket === bucket) {
+      if (bucketData.id === bucketId) {
         return {
           ...bucketData,
-          colors: bucketData.colors.filter((color) => color.hex !== hex),
+          colors: bucketData.colors.filter((color) => color !== hex),
         };
       }
       return {
@@ -52,17 +48,13 @@ const CreatePalette = () => {
     setBucketsData(newBucketsData);
   };
 
-  const pickColorChoice = ({ bucket, hex }: ColorManipArgs) => {
+  const pickColorChoice = ({ bucketId, hex }: ColorManipArgs) => {
     const newBucketsData = bucketsData.map((bucketData) => {
-      if (bucketData.bucket === bucket) {
+      if (bucketData.id === bucketId) {
         return {
           ...bucketData,
-          colors: bucketData.colors.filter((color) => color.hex !== hex),
-          closestHex: {
-            // Distance is not important for this render. If needed calculate it using the @mavrica/parser helper functions
-            hex,
-            proximity: 0,
-          },
+          colors: bucketData.colors.filter((color) => color !== hex),
+          closestHex: hex,
         };
       }
       return {
@@ -78,28 +70,33 @@ const CreatePalette = () => {
         <Image
           alt="image the color palette was generated from"
           layout="fill"
-          src={imageSrc}
+          src={source.url}
         />
       </div>
       <h1>Current Palette</h1>
       <div className={styles.colorsContainer}>
-        {bucketsData.map(({ closestHex: { hex } }) => (
-          <Color key={hex} hex={hex} />
+        {bucketsData.map(({ closestHex }) => (
+          <Color key={closestHex} hex={closestHex} />
         ))}
       </div>
       <h1>Color alternatives</h1>
       <div className={styles.colorsContainer}>
-        {bucketsData.map(({ bucket, closestHex, colors }) => {
-          return (
-            <BucketOptions
-              colorOptions={colors}
-              mainColor={closestHex}
-              key={bucket}
-              pickColor={(hex: string) => pickColorChoice({ bucket, hex })}
-              removeColor={(hex: string) => removeColorChoice({ bucket, hex })}
-            />
-          );
-        })}
+        {bucketsData.length > 0 &&
+          bucketsData.map(({ id, closestHex, colors }) => {
+            return (
+              <BucketOptions
+                colorOptions={colors}
+                mainColor={closestHex}
+                key={id}
+                pickColor={(hex: string) =>
+                  pickColorChoice({ bucketId: id, hex })
+                }
+                removeColor={(hex: string) =>
+                  removeColorChoice({ bucketId: id, hex })
+                }
+              />
+            );
+          })}
       </div>
     </section>
   );

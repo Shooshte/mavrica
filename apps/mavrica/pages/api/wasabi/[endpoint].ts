@@ -1,5 +1,4 @@
 import { unstable_getServerSession } from 'next-auth/next';
-import { v4 as uuid } from 'uuid';
 
 import { createS3Client } from '@mavrica/parser';
 import { UppyNextS3MultipartEndpoint } from '../../../lib/uppyMultipartEndpoint';
@@ -18,14 +17,8 @@ const endpointHandler = new UppyNextS3MultipartEndpoint<FilenameGenParams>(
   s3,
   S3_BUCKET_NAME,
   EXPIRE_TIME_SEC,
-  // This is used to specify how you would like the file to be named
-  // In this example, I am passing a prefix from the client, then adding
-  // a year-month folder, then a uuid with the filename appended at the end
   (file, params) => {
-    const date = new Date();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    return `${params.prefix}/${year}-${month}/${uuid()}_${file.name}`;
+    return `${params.prefix}/${file.name}`;
   }
 );
 

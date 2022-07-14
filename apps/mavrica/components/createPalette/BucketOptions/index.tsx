@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 
 import Color from '../Color';
 
-import type { ParseResult } from '@mavrica/parser';
+import type { Bucket } from '@mavrica/parser';
 
 import styles from './BucketOptions.module.scss';
 
 interface Props {
-  colorOptions: ParseResult['colors'];
-  mainColor: ParseResult['closestHex'];
+  colorOptions: Bucket['colors'];
+  mainColor: Bucket['closestHex'];
   pickColor: (hex: string) => void;
   removeColor: (hex: string) => void;
 }
@@ -18,7 +18,7 @@ const BucketOptions = ({ colorOptions, pickColor, removeColor }: Props) => {
 
   return (
     <div className={styles.container}>
-      {renderOptions.map(({ hex }) => (
+      {renderOptions.map((hex) => (
         <Color
           key={hex}
           hex={hex}

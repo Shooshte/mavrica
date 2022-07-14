@@ -1,0 +1,15 @@
+@import '../../styles/variables';
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(
+    453px - map-get($spacing-sizes, '1') - map-get($spacing-sizes, '1')
+  );
+  justify-content: flex-start;
+  padding: map-get($spacing-sizes, '1');
+  width: calc(
+    100% - map-get($spacing-sizes, '1') - map-get($spacing-sizes, '1')
+  );
+}
