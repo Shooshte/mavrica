@@ -9,7 +9,7 @@ import type { ParseResult } from '../types/color';
 // buckets
 interface Params {
   buckets: ParseResult[];
-  driver: Driver;
+  driver?: Driver;
   imageUrl: string;
   userEmail: string;
 }

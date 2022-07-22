@@ -9,7 +9,7 @@ interface Count {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Count>) => {
   try {
-    const count = await getPalettesCount();
+    const count = await getPalettesCount({});
     res.status(200).json({ count });
   } catch (e) {
     console.log(e);

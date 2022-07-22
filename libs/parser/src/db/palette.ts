@@ -6,7 +6,7 @@ import type { Driver } from 'neo4j-driver';
 import type { Palette } from '../types/color';
 
 interface GetPalleteArgs {
-  driver: Driver;
+  driver?: Driver;
   count?: number;
   start?: number;
 }
@@ -14,7 +14,7 @@ interface GetPalleteArgs {
 export const getPalettesCount = async ({
   driver = defaultDriver,
 }: {
-  driver: Driver;
+  driver?: Driver;
 }): Promise<number> => {
   const session = driver.session();
   const palettesQuery = `
@@ -64,7 +64,7 @@ export const getPalettes = async ({
 export const getColorsList = async ({
   driver = defaultDriver,
 }: {
-  driver: Driver;
+  driver?: Driver;
 }) => {
   const session = driver.session();
 
@@ -111,7 +111,7 @@ export const savePalette = async ({
   driver = defaultDriver,
   palette,
 }: {
-  driver: Driver;
+  driver?: Driver;
   palette: Palette;
 }) => {
   const session = driver.session();
@@ -145,7 +145,7 @@ export const getPaletteBuckets = async ({
   driver = defaultDriver,
   paletteId,
 }: {
-  driver: Driver;
+  driver?: Driver;
   paletteId: string;
 }): Promise<GetPaletteBucketsReturn> => {
   const session = driver.session();
