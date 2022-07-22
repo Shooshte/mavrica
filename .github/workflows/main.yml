@@ -2,7 +2,7 @@ name: CI
 on: [push]
 
 jobs:
-  e2e test:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - run: npm i --legacy-peer-deps
