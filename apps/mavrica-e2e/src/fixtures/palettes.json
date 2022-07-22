@@ -1,0 +1,9 @@
+[
+  {
+    "colors": [{ "hex": "#f5f5f5" }, { "hex": "#000000" }],
+    "name": "First test palette",
+    "sources": [
+      "https://s3.eu-west-1.wasabisys.com/mavrica/test/2022-07/46b44791-0e3e-4d6a-a648-736b75b28cb6_Cardinal%20Fernando%20Nin%CC%83o%20de%20Guevara%20(1541%E2%80%931609).jpeg"
+    ]
+  }
+]
