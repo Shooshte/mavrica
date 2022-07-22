@@ -1,19 +1,22 @@
-import { driver } from './driver';
-
 import { v4 as uuid } from 'uuid';
 
+import { defaultDriver } from './driver';
+
+import type { Driver } from 'neo4j-driver';
 import type { ParseResult } from '../types/color';
 
 // image source (url)
 // buckets
 interface Params {
   buckets: ParseResult[];
+  driver: Driver;
   imageUrl: string;
   userEmail: string;
 }
 
 export const saveSourceBuckets = async ({
   buckets,
+  driver = defaultDriver,
   imageUrl,
   userEmail,
 }: Params) => {

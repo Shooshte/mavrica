@@ -19,7 +19,7 @@ export type {
   ParseResult,
 } from './types/color';
 export { getPalettes, getPalettesCount, getPaletteBuckets } from './db/palette';
-export { driver } from './db/driver';
+
 export { resizeImage, getPixels } from './lib/palette/image';
 export { getImagePalette } from './lib/palette';
 export { saveSourceBuckets } from './db/bucket';

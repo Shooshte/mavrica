@@ -1,14 +1,21 @@
 import neo4j from 'neo4j-driver';
-import { driver } from './driver';
 
+import { defaultDriver } from './driver';
+
+import type { Driver } from 'neo4j-driver';
 import type { Palette } from '../types/color';
 
 interface GetPalleteArgs {
+  driver: Driver;
   count?: number;
   start?: number;
 }
 
-export const getPalettesCount = async (): Promise<number> => {
+export const getPalettesCount = async ({
+  driver = defaultDriver,
+}: {
+  driver: Driver;
+}): Promise<number> => {
   const session = driver.session();
   const palettesQuery = `
     MATCH (p:Palette)-[:INCLUDES]->(c:Color)
@@ -24,6 +31,7 @@ export const getPalettesCount = async (): Promise<number> => {
 };
 
 export const getPalettes = async ({
+  driver = defaultDriver,
   count = 10,
   start = 0,
 }: GetPalleteArgs): Promise<Palette[]> => {
@@ -53,7 +61,11 @@ export const getPalettes = async ({
 };
 
 // TODO: refactor this so it will only return predefined colors which have at least 1 tag
-export const getColorsList = async () => {
+export const getColorsList = async ({
+  driver = defaultDriver,
+}: {
+  driver: Driver;
+}) => {
   const session = driver.session();
 
   const readQuery = `
@@ -81,22 +93,28 @@ export const getColorsList = async () => {
   return colors;
 };
 
-export const savePalette = async (palette: Palette) => {
-  const session = driver.session();
-
-  const writePaletteQuery = `
-    MERGE (p:Palette{name: $name})
-    WITH p
-    UNWIND $sources AS source
-      MERGE (s:Source{name: source})
-      MERGE (p)-[u:USED_FOR]->(s)
-    WITH p
-    UNWIND $colors AS color
-      MERGE (c:Color{hex: color.hex})
-      MERGE (p)-[i:INCLUDES]->(c)
-    WITH p
-    RETURN p AS Palette
+const writePaletteQuery = `
+MERGE (p:Palette{name: $name})
+WITH p
+UNWIND $sources AS source
+  MERGE (s:Source{name: source})
+  MERGE (p)-[u:USED_FOR]->(s)
+WITH p
+UNWIND $colors AS color
+  MERGE (c:Color{hex: color.hex})
+  MERGE (p)-[i:INCLUDES]->(c)
+WITH p
+RETURN p AS Palette
 `;
+
+export const savePalette = async ({
+  driver = defaultDriver,
+  palette,
+}: {
+  driver: Driver;
+  palette: Palette;
+}) => {
+  const session = driver.session();
 
   await session.writeTransaction((tx) => {
     tx.run(writePaletteQuery, {
@@ -123,9 +141,13 @@ export interface GetPaletteBucketsReturn {
   buckets: Bucket[];
 }
 
-export const getPaletteBuckets = async (
-  paletteId: string
-): Promise<GetPaletteBucketsReturn> => {
+export const getPaletteBuckets = async ({
+  driver = defaultDriver,
+  paletteId,
+}: {
+  driver: Driver;
+  paletteId: string;
+}): Promise<GetPaletteBucketsReturn> => {
   const session = driver.session();
   const readQuery = `
     MATCH(s:Source)<-[cr1:CREATED_FROM]-(b:Bucket)<-[cr2:CREATED_FROM]-(p:Palette{id: $paletteId})
