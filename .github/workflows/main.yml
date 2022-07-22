@@ -5,14 +5,6 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v2
       - run: npm ci --legacy-peer-deps
-
-      - run: npx nx workspace-lint
-      - run: npx nx format:check
-      - run: npx nx affected --target=lint
-      - run: npx nx affected --target=test --ci --code-coverage
-      - run: npx nx affected --target=build
+      - run: npx nx build mavrica --prod
+      - run: npx nx e2e mavrica-e2e --prod
