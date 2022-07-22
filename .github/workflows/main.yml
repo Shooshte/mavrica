@@ -2,9 +2,9 @@ name: CI
 on: [push]
 
 jobs:
-  main:
+  e2e test:
     runs-on: ubuntu-latest
     steps:
-      - run: npm ci --legacy-peer-deps
+      - run: npm i --legacy-peer-deps
       - run: npx nx build mavrica --prod
       - run: npx nx e2e mavrica-e2e --prod
