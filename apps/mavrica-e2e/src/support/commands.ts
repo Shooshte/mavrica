@@ -24,19 +24,13 @@ Cypress.Commands.add('clearDb', async () => {
     Cypress.env('neo4j_uri'),
     neo4j.auth.basic(Cypress.env('neo4j_user'), Cypress.env('neo4j_pass'))
   );
-
   const clearQuery = `
     MATCH(n)
     DETACH DELETE n
   `;
-
-  console.log('clearing db...');
-
   const session = driver.session();
   await session.writeTransaction((tx) => tx.run(clearQuery));
   session.close();
-
-  console.log('db cleared...');
 });
 //
 // -- This is a child command --

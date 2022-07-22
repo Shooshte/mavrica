@@ -19,6 +19,10 @@ $max-width: 500px;
   padding-left: map-get($spacing-sizes, '2');
 }
 
+.info {
+  padding: map-get($spacing-sizes, '1') map-get($spacing-sizes, '2');
+}
+
 .heading {
   padding-top: map-get($spacing-sizes, '1');
   max-width: $max-width;
@@ -83,6 +87,9 @@ $max-width: 500px;
     width: calc(
       100% - map-get($spacing-sizes, '1') - map-get($spacing-sizes, '1')
     );
+  }
+  .info {
+    padding: map-get($spacing-sizes, '1');
   }
 }
 

@@ -18,6 +18,8 @@ export const BATCH_SIZE = 10;
 // TODO: add placeholders for images that are not yet loaded
 // TODO: add placeholders for first palette load
 const Landing = () => {
+  const [palettesCountError, setPalettesCountError] = useState<string>();
+  const [palettesError, setPalettesError] = useState<string>();
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [maxPalettesCount, setPalettesCount] = useState(BATCH_SIZE);
 
@@ -26,7 +28,7 @@ const Landing = () => {
       const { data } = await axios.get('/api/palettesCount');
       setPalettesCount(data.count);
     } catch (e) {
-      console.log(e);
+      setPalettesCountError(e.response.data);
     }
   }, [setPalettesCount]);
 
@@ -48,7 +50,7 @@ const Landing = () => {
         const newPalettes = [...palettes, ...data];
         setPalettes(newPalettes);
       } catch (e) {
-        console.log(e);
+        setPalettesError(e.response.data);
       }
     },
     [palettes, palettesCount]
@@ -66,7 +68,23 @@ const Landing = () => {
     getPaletteCount();
   }, []);
 
-  return (
+  if (palettesError) {
+    return (
+      <p
+        className={`${styles.info} text`}
+      >{`Error fetching palettes: ${palettesError}`}</p>
+    );
+  }
+
+  if (palettesCountError) {
+    return (
+      <p
+        className={`${styles.info} text`}
+      >{`Error fetching palettes count: ${palettesCountError}`}</p>
+    );
+  }
+
+  return palettesCount > 0 ? (
     <Virtuoso
       context={{
         endReached,
@@ -124,6 +142,8 @@ const Landing = () => {
         );
       }}
     />
+  ) : (
+    <p className={`${styles.info} text`}>No saved palettes to display.</p>
   );
 };
 
