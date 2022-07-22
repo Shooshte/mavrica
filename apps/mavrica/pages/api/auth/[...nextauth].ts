@@ -1,9 +1,16 @@
 import NextAuth from 'next-auth';
+import neo4j from 'neo4j-driver';
 import { withSentry } from '@sentry/nextjs';
 import { Neo4jAdapter } from '@next-auth/neo4j-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 
-import { driver } from '@mavrica/parser';
+const driver = neo4j.driver(
+  process.env['NX_NEO4J_URI'] || '',
+  neo4j.auth.basic(
+    process.env['NX_NEO4J_USER'] || '',
+    process.env['NX_NEO4J_PASS'] || ''
+  )
+);
 
 export const authOptions = {
   providers: [

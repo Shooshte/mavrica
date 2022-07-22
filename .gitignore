@@ -39,9 +39,8 @@ testem.log
 Thumbs.db
 
 .env
+cypress.env.json
 
 # Sentry
 .sentryclirc
 
-# Sentry
-.sentryclirc
