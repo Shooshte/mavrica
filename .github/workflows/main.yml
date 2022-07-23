@@ -11,5 +11,6 @@ jobs:
       - uses: nrwl/nx-set-shas@v2
 
       - run: npm i --legacy-peer-deps
-      - run: npx nx build mavrica --prod
-      - run: npx nx e2e mavrica-e2e --prod
+      #- run: npx nx affected:test --verbose
+      - run: npx nx affected:build --prod --verbose
+      - run: npx nx affected:e2e --prod --verbose
