@@ -16,8 +16,8 @@ import neo4j from 'neo4j-driver';
 // -- This is a parent command --
 Cypress.Commands.add('clearDb', async () => {
   const driver = neo4j.driver(
-    Cypress.env('neo4j_uri'),
-    neo4j.auth.basic(Cypress.env('neo4j_user'), Cypress.env('neo4j_pass'))
+    Cypress.env('NEO4J_URI'),
+    neo4j.auth.basic(Cypress.env('NEO4J_USER'), Cypress.env('NEO4J_PASS'))
   );
   const clearQuery = `
     MATCH(n)
