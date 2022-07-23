@@ -12,6 +12,7 @@ jobs:
 
       - run: npm i --legacy-peer-deps
       #- run: npx nx affected:test --verbose
+      - run: echo '${{ secrets.MAVRICA_ENV_CI }}' > .env
       - run: npx nx affected:build --prod --verbose
       # only one set of cypress e2e tests for now, this needs to be added for all of them
       - run: echo '${{ secrets.CYPRESS_ENV_CI }}' > ./apps/mavrica-e2e/cypress.env.json
