@@ -13,6 +13,6 @@ jobs:
       - run: npm i --legacy-peer-deps
       #- run: npx nx affected:test --verbose
       - run: npx nx affected:build --prod --verbose
-      run: |
+      - run: |
           echo '${{ secrets.CYPRESS_ENV_CI }}' > cypress.env.json
       - run: npx nx affected:e2e --verbose
