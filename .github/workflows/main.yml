@@ -5,6 +5,11 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v2
+
       - run: npm i --legacy-peer-deps
       - run: npx nx build mavrica --prod
       - run: npx nx e2e mavrica-e2e --prod
