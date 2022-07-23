@@ -5,7 +5,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
@@ -13,6 +13,6 @@ jobs:
       - run: npm i --legacy-peer-deps
       #- run: npx nx affected:test --verbose
       - run: npx nx affected:build --prod --verbose
-      - run: |
-          echo '${{ secrets.CYPRESS_ENV_CI }}' > cypress.env.json
+      # only one set of cypress e2e tests for now, this needs to be added for all of them
+      - run: echo '${{ secrets.CYPRESS_ENV_CI }}' > ./apps/mavrica-e2e/cypress.env.json
       - run: npx nx affected:e2e --verbose
