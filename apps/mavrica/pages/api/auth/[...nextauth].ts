@@ -4,11 +4,19 @@ import { withSentry } from '@sentry/nextjs';
 import { Neo4jAdapter } from '@next-auth/neo4j-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 
+const isTest = process.env['NX_TARGET_ENV'] === 'test';
+
 const driver = neo4j.driver(
-  process.env['NX_NEO4J_URI'] || '',
+  !isTest
+    ? process.env['NX_NEO4J_URI'] || ''
+    : process.env['NX_NE04J_TEST_URI'] || '',
   neo4j.auth.basic(
-    process.env['NX_NEO4J_USER'] || '',
-    process.env['NX_NEO4J_PASS'] || ''
+    !isTest
+      ? process.env['NX_NEO4J_USER'] || ''
+      : process.env['NX_NE04J_TEST_USER'] || '',
+    !isTest
+      ? process.env['NX_NEO4J_PASS'] || ''
+      : process.env['NX_NEO4J_TEST_PASS'] || ''
   )
 );
 
