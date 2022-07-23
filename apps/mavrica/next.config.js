@@ -19,6 +19,8 @@ const nextConfig = {
   },
 };
 
+const isProd = process.env['NODE_ENV'] === 'production';
+
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
   // the following options are set automatically, and overriding them is not
@@ -33,6 +35,6 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
 
-module.exports = withNx(
-  withSentryConfig(nextConfig, sentryWebpackPluginOptions)
-);
+module.exports = isProd
+  ? withNx(withSentryConfig(nextConfig, sentryWebpackPluginOptions))
+  : withNx(nextConfig);

@@ -18,6 +18,10 @@ export const BATCH_SIZE = 10;
 // TODO: add placeholders for images that are not yet loaded
 // TODO: add placeholders for first palette load
 const Landing = () => {
+  console.group('Landing');
+  console.log('process.NX_TARGET_ENV:', process.env.NX_TARGET_ENV);
+  console.groupEnd();
+
   const [palettesCountError, setPalettesCountError] = useState<string>();
   const [palettesError, setPalettesError] = useState<string>();
   const [palettes, setPalettes] = useState<Palette[]>([]);
