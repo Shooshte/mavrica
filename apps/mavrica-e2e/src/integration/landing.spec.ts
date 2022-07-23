@@ -1,7 +1,7 @@
 // load the type definition for new command we are adding "cy.dataCy"
 // note: this definition also will load regular Cypress definition
 // because index.d.ts references global "cypress" types
-/// <reference path="../support/index.d.ts" />
+/// <reference path="../support/index.ts" />
 
 describe('palettes list', () => {
   beforeEach(() => {

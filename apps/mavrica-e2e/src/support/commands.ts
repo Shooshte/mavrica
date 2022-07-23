@@ -9,7 +9,7 @@
 // ***********************************************
 
 // load the global Cypress types
-/// <reference path="./index.d.ts" />
+/// <reference path="./index.ts" />
 
 import neo4j from 'neo4j-driver';
 
