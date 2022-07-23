@@ -8,16 +8,11 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+// load the global Cypress types
+/// <reference path="./index.d.ts" />
+
 import neo4j from 'neo4j-driver';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    clearDb(): Promise<void>;
-  }
-}
-//
 // -- This is a parent command --
 Cypress.Commands.add('clearDb', async () => {
   const driver = neo4j.driver(
@@ -32,14 +27,3 @@ Cypress.Commands.add('clearDb', async () => {
   await session.writeTransaction((tx) => tx.run(clearQuery));
   session.close();
 });
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })

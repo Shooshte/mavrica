@@ -13,5 +13,19 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// load the global Cypress types
+/// <reference types="cypress" />
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Custom command to select DOM element by data-cy attribute.
+     * @example cy.dataCy('greeting')
+     */
+    clearDb(value: string): Chainable<Element>;
+  }
+}
+
 // Import commands.js using ES2015 syntax:
 import './commands';
