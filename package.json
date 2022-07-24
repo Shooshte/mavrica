@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "cypress_mavrica": "NX_TARGET_ENV=test npx nx e2e mavrica-e2e --watch"
   },
   "private": true,
   "dependencies": {
@@ -80,4 +81,3 @@
     "typescript": "~4.7.2"
   }
 }
-

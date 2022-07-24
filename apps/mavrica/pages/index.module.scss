@@ -59,15 +59,21 @@ $max-width: 500px;
 }
 
 .sourcesContainer {
+  display: flex;
+  gap: map-get($spacing-sizes, '4');
   overflow: auto;
-  width: 100%;
+  width: calc(
+    100vw - map-get($spacing-sizes, '2') - map-get($spacing-sizes, '2')
+  );
 }
 
-.imageContainer {
+.imageContainer,
+.imageLink {
   cursor: pointer;
   height: 200px;
   position: relative;
   margin-bottom: map-get($spacing-sizes, '4');
+  width: 200px;
 }
 
 .footer {
@@ -89,7 +95,7 @@ $max-width: 500px;
     );
   }
   .info {
-    padding: map-get($spacing-sizes, '1');
+    padding: map-get($spacing-sizes, '1') map-get($spacing-sizes, '2');
   }
 }
 

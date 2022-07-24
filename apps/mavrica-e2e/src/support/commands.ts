@@ -27,3 +27,7 @@ Cypress.Commands.add('clearDb', async () => {
   await session.writeTransaction((tx) => tx.run(clearQuery));
   session.close();
 });
+
+Cypress.Commands.add('getBySel', (selector, ...args) => {
+  return cy.get(`[data-cy=${selector}]`, ...args);
+});

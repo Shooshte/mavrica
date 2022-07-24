@@ -38,11 +38,11 @@ export const saveSourceBuckets = async ({
       MERGE (u)-[:CREATED]->(p:Palette {id: $paletteId})
   `;
 
-  const paletteSession = driver.session();
-  await paletteSession.writeTransaction((tx) => {
+  const paletteSession = driver?.session();
+  await paletteSession?.writeTransaction((tx) => {
     tx.run(paletteQuery, paletteQueryData);
   });
-  paletteSession.close();
+  paletteSession?.close();
 
   const bucketQuery = `
     MATCH (s:Source {id: $imageId})
@@ -66,11 +66,11 @@ export const saveSourceBuckets = async ({
       imageId,
       paletteId,
     };
-    const bucketSession = driver.session();
-    await bucketSession.writeTransaction((tx) => {
+    const bucketSession = driver?.session();
+    await bucketSession?.writeTransaction((tx) => {
       tx.run(bucketQuery, bucketQueryData);
     });
-    bucketSession.close();
+    bucketSession?.close();
   }
 
   return paletteId;

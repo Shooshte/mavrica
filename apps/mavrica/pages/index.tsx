@@ -18,10 +18,6 @@ export const BATCH_SIZE = 10;
 // TODO: add placeholders for images that are not yet loaded
 // TODO: add placeholders for first palette load
 const Landing = () => {
-  console.group('Landing');
-  console.log('process.NX_TARGET_ENV:', process.env.NX_TARGET_ENV);
-  console.groupEnd();
-
   const [palettesCountError, setPalettesCountError] = useState<string>();
   const [palettesError, setPalettesError] = useState<string>();
   const [palettes, setPalettes] = useState<Palette[]>([]);
@@ -30,6 +26,7 @@ const Landing = () => {
   const getPaletteCount = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/palettesCount');
+      console.log('getPaletteCount: ', data);
       setPalettesCount(data.count);
     } catch (e) {
       setPalettesCountError(e.response.data);
@@ -110,6 +107,7 @@ const Landing = () => {
           <section
             className={styles.paletteContainer}
             key={`palette-${index}-${name}`}
+            data-cy="palette"
           >
             <h2 className="heading-3">{name}</h2>
             <ul className={styles.colorsContainer}>
@@ -128,6 +126,7 @@ const Landing = () => {
                 const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
                 return (
                   <a
+                    className={styles.imageLink}
                     href={imgSource}
                     key={source}
                     rel="noreferrer"
@@ -152,7 +151,7 @@ const Landing = () => {
 };
 
 const ListHeader: Components['Header'] = () => {
-  return <h1 className={`heading-2 ${styles.heading}`}>Saved palettes</h1>;
+  return <h1 className={`heading-2 ${styles.heading}`}>Saved Palettes</h1>;
 };
 
 const ListContainer: Components['List'] = React.forwardRef(

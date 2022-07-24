@@ -16,18 +16,18 @@ export const getPalettesCount = async ({
 }: {
   driver?: Driver;
 }): Promise<number> => {
-  const session = driver.session();
+  const session = driver?.session();
   const palettesQuery = `
-    MATCH (p:Palette)-[:INCLUDES]->(c:Color)
-    WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p
-    MATCH (p)-[:USED_FOR]-(s:Source)
+    MATCH (s:Source)<-[USED_FOR]-(p:Palette)-[:INCLUDES]->(c:Color)
+    WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p, s
+    WITH COLLECT(s.name) as SOURCES, COLORS, p
     RETURN p
   `;
 
-  const readResults = await session.readTransaction((tx) =>
+  const readResults = await session?.readTransaction((tx) =>
     tx.run(palettesQuery, {})
   );
-  return readResults.records.length;
+  return readResults?.records?.length || 0;
 };
 
 export const getPalettes = async ({
@@ -35,29 +35,30 @@ export const getPalettes = async ({
   count = 10,
   start = 0,
 }: GetPalleteArgs): Promise<Palette[]> => {
-  const session = driver.session();
+  const session = driver?.session();
   const palettesQuery = `
     MATCH (p:Palette)-[:INCLUDES]->(c:Color)
     WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p
-    MATCH (p)-[:USED_FOR]-(s:Source)
+    MATCH (p)-[:USED_FOR]->(s:Source)
     WITH COLLECT(s.name) as SOURCES, COLORS, p
     SKIP $start LIMIT $count
-    RETURN COLORS AS colors, SOURCES as sources, p.name as name
+    RETURN COLORS AS colors, SOURCES as sources, p.name as name, p.id as id
   `;
 
-  const readResults = await session.readTransaction((tx) =>
+  const readResults = await session?.readTransaction((tx) =>
     tx.run(palettesQuery, { count: neo4j.int(count), start: neo4j.int(start) })
   );
 
-  const palettes: Palette[] = readResults.records.map((record) => {
+  const palettes: Palette[] | undefined = readResults?.records.map((record) => {
     return {
       colors: record.get('colors'),
+      id: record.get('id'),
       name: record.get('name'),
       sources: record.get('sources'),
     };
   });
 
-  return palettes;
+  return palettes || [];
 };
 
 // TODO: refactor this so it will only return predefined colors which have at least 1 tag
@@ -66,16 +67,16 @@ export const getColorsList = async ({
 }: {
   driver?: Driver;
 }) => {
-  const session = driver.session();
+  const session = driver?.session();
 
   const readQuery = `
     MATCH (c:Color)-[a:ASSOCIATED_WITH]->(t:Tag)
     WITH COLLECT(t.name) AS tags, c
     RETURN  c.alternativeNames AS alternativeNames, c.hex AS hex, c.name AS name, c.temperature AS temperature, tags AS tags
   `;
-  const readResult = await session.readTransaction((tx) => tx.run(readQuery));
+  const readResult = await session?.readTransaction((tx) => tx.run(readQuery));
 
-  const colors = readResult.records.map((color) => {
+  const colors = readResult?.records.map((color) => {
     const alternativeNames = color.get('alternativeNames');
     const hex = color.get('hex');
     const name = color.get('name');
@@ -94,17 +95,17 @@ export const getColorsList = async ({
 };
 
 const writePaletteQuery = `
-MERGE (p:Palette{name: $name})
-WITH p
-UNWIND $sources AS source
-  MERGE (s:Source{name: source})
-  MERGE (p)-[u:USED_FOR]->(s)
-WITH p
-UNWIND $colors AS color
-  MERGE (c:Color{hex: color.hex})
-  MERGE (p)-[i:INCLUDES]->(c)
-WITH p
-RETURN p AS Palette
+  MERGE (p:Palette {id: $id, name: $name})
+  WITH p
+  UNWIND $sources AS source
+    MERGE (s:Source{name: source})
+    MERGE (p)-[u:USED_FOR]->(s)
+  WITH p
+  UNWIND $colors AS color
+    MERGE (c:Color{hex: color.hex})
+    MERGE (p)-[i:INCLUDES]->(c)
+  WITH p
+  RETURN p AS Palette
 `;
 
 export const savePalette = async ({
@@ -114,11 +115,12 @@ export const savePalette = async ({
   driver?: Driver;
   palette: Palette;
 }) => {
-  const session = driver.session();
+  const session = driver?.session();
 
-  await session.writeTransaction((tx) => {
+  await session?.writeTransaction((tx) => {
     tx.run(writePaletteQuery, {
       colors: palette.colors,
+      id: palette.id,
       name: palette.name,
       sources: palette.sources,
     });
@@ -148,7 +150,7 @@ export const getPaletteBuckets = async ({
   driver?: Driver;
   paletteId: string;
 }): Promise<GetPaletteBucketsReturn> => {
-  const session = driver.session();
+  const session = driver?.session();
   const readQuery = `
     MATCH(s:Source)<-[cr1:CREATED_FROM]-(b:Bucket)<-[cr2:CREATED_FROM]-(p:Palette{id: $paletteId})
       WITH COLLECT(b) as buckets, p, s
@@ -159,10 +161,10 @@ export const getPaletteBuckets = async ({
     RETURN s AS Source, Buckets
   `;
 
-  const readResult = await session.readTransaction((tx) =>
+  const readResult = await session?.readTransaction((tx) =>
     tx.run(readQuery, { paletteId })
   );
-  const finalResult = readResult.records.map((record) => {
+  const finalResult = readResult?.records.map((record) => {
     const buckets = record.get('Buckets');
     const source = record.get('Source');
 
@@ -173,5 +175,6 @@ export const getPaletteBuckets = async ({
 
     return returnData;
   });
+  // @ts-ignore finalResult will either be a defined array or this function will throw earlier
   return finalResult[0];
 };

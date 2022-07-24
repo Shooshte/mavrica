@@ -3,8 +3,24 @@
 // because index.d.ts references global "cypress" types
 /// <reference path="../support/index.ts" />
 
+import neo4j from 'neo4j-driver';
+import { savePalette } from '@mavrica/parser';
+
+import palettes from '../fixtures/palettes.json';
+
+import type { Palette } from '@mavrica/parser';
+
+const saveTestPalette = async (paletteData: Palette): Promise<void> => {
+  const driver = neo4j.driver(
+    Cypress.env('NEO4J_URI'),
+    neo4j.auth.basic(Cypress.env('NEO4J_USER'), Cypress.env('NEO4J_PASS'))
+  );
+
+  await savePalette({ driver, palette: paletteData });
+};
+
 describe('palettes list', () => {
-  beforeEach(() => {
+  before(() => {
     // Not sure if this is needed or should be called per individual case
     cy.clearDb();
   });
@@ -18,7 +34,6 @@ describe('palettes list', () => {
     cy.get('p').contains('No saved palettes to display.');
   });
 
-  // TODO: write test for load case with error when data fetching
   it('show error message when fetching palettes fails', () => {
     cy.intercept('/api/palettes', {
       statusCode: 500,
@@ -43,6 +58,22 @@ describe('palettes list', () => {
     cy.visit('/');
     cy.wait(['@getPalettes', '@getPalettesCount']);
     cy.get('p').contains('Get palettes count error message!');
+  });
+
+  it('shows a single palette correctly', () => {
+    cy.then(async () => {
+      console.log(palettes.singlePalette);
+      await saveTestPalette(palettes.singlePalette);
+    });
+
+    cy.intercept('/api/palettes').as('getPalettes');
+    cy.intercept('/api/palettesCount').as('getPalettesCount');
+    cy.visit('/');
+    cy.wait(['@getPalettes', '@getPalettesCount']);
+
+    cy.get('h1').contains('Saved Palettes');
+    cy.getBySel('palette').should('have.length', 1);
+    cy.get('div').contains('No more palettes to load');
   });
 
   // TODO: write test for load case that has only 1 palette

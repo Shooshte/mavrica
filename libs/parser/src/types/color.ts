@@ -29,6 +29,7 @@ export interface Color {
 
 export interface Palette {
   colors: Color[];
+  id: string;
   name: string;
   sources: string[];
 }
