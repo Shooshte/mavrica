@@ -26,7 +26,6 @@ const Landing = () => {
   const getPaletteCount = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/palettesCount');
-      console.log('getPaletteCount: ', data);
       setPalettesCount(data.count);
     } catch (e) {
       setPalettesCountError(e.response.data);
@@ -111,17 +110,23 @@ const Landing = () => {
           >
             <h2 className="heading-3">{name}</h2>
             <ul className={styles.colorsContainer}>
-              {colors.map(({ hex }) => {
-                return (
-                  <li
-                    className={styles.color}
-                    key={hex}
-                    style={{ backgroundColor: hex }}
-                  />
-                );
-              })}
+              {colors
+                .sort(
+                  (a, b) =>
+                    parseInt(b.hex.slice(1, 6), 16) -
+                    parseInt(a.hex.slice(1, 6), 16)
+                )
+                .map(({ hex }) => {
+                  return (
+                    <li
+                      className={styles.color}
+                      key={hex}
+                      style={{ backgroundColor: hex }}
+                    />
+                  );
+                })}
             </ul>
-            <div className={styles.sourcesContainer}>
+            <div className={styles.sourcesContainer} data-cy="sources">
               {sources.map((source) => {
                 const imgSource = `${baseImgUrl}${encodeURIComponent(source)}`;
                 return (

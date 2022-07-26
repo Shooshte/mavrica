@@ -7,5 +7,97 @@
       "test/2022-07/46b44791-0e3e-4d6a-a648-736b75b28cb6_Cardinal Fernando Niño de Guevara (1541–1609).jpeg",
       "test/2022-07/2d2650e6-e99b-4c6b-abb3-54e82352f5ff_A Hunting Scene.jpeg"
     ]
-  }
+  },
+  "palettes": [
+    {
+      "colors": [{ "hex": "#f5f5f5" }, { "hex": "#41562C" }],
+      "id": "testUUIDInameUp",
+      "name": "First test palette",
+      "sources": [
+        "test/2022-07/cbcf4a33-8893-4500-a70f-cbcb05774548_A Month's Darning.jpeg"
+      ]
+    },
+    {
+      "colors": [
+        { "hex": "#917E96" },
+        { "hex": "#BD9C4A" },
+        { "hex": "#915D3C" },
+        { "hex": "#ECD5A6" }
+      ],
+      "id": "testUUIDInameUp",
+      "name": "Second test palette",
+      "sources": [
+        "test/2022-07/94684c0a-1547-4b5b-ab12-69796541b7b2_At the Seaside.jpeg"
+      ]
+    },
+    {
+      "colors": [{ "hex": "#fafafa" }, { "hex": "#000000" }],
+      "id": "testUUIDInameUp",
+      "name": "Third test palette",
+      "sources": [
+        "test/2022-07/7a4ef009-5e56-4ede-a0e7-42b9e274c66d_Boys in a Dory.jpeg",
+        "test/2022-07/ccab07d4-9664-4fc1-937f-97fd9f69928b_A Bit of War History- The Recruit.jpeg"
+      ]
+    },
+    {
+      "colors": [{ "hex": "#f5f5f5" }, { "hex": "#41562C" }],
+      "id": "testUUIDInameUp",
+      "name": "First test palette",
+      "sources": [
+        "test/2022-07/cbcf4a33-8893-4500-a70f-cbcb05774548_A Month's Darning.jpeg"
+      ]
+    },
+    {
+      "colors": [
+        { "hex": "#917E96" },
+        { "hex": "#BD9C4A" },
+        { "hex": "#915D3C" },
+        { "hex": "#ECD5A6" }
+      ],
+      "id": "testUUIDInameUp",
+      "name": "Second test palette",
+      "sources": [
+        "test/2022-07/94684c0a-1547-4b5b-ab12-69796541b7b2_At the Seaside.jpeg"
+      ]
+    },
+    {
+      "colors": [{ "hex": "#fafafa" }, { "hex": "#000000" }],
+      "id": "testUUIDInameUp",
+      "name": "Third test palette",
+      "sources": [
+        "test/2022-07/7a4ef009-5e56-4ede-a0e7-42b9e274c66d_Boys in a Dory.jpeg",
+        "test/2022-07/ccab07d4-9664-4fc1-937f-97fd9f69928b_A Bit of War History- The Recruit.jpeg"
+      ]
+    },
+    {
+      "colors": [{ "hex": "#f5f5f5" }, { "hex": "#41562C" }],
+      "id": "testUUIDInameUp",
+      "name": "First test palette",
+      "sources": [
+        "test/2022-07/cbcf4a33-8893-4500-a70f-cbcb05774548_A Month's Darning.jpeg"
+      ]
+    },
+    {
+      "colors": [
+        { "hex": "#917E96" },
+        { "hex": "#BD9C4A" },
+        { "hex": "#915D3C" },
+        { "hex": "#ECD5A6" }
+      ],
+      "id": "testUUIDInameUp",
+      "name": "Second test palette",
+      "sources": [
+        "test/2022-07/94684c0a-1547-4b5b-ab12-69796541b7b2_At the Seaside.jpeg"
+      ]
+    },
+    {
+      "colors": [{ "hex": "#fafafa" }, { "hex": "#000000" }],
+      "id": "testUUIDInameUp",
+      "name": "Third test palette",
+      "sources": [
+        "test/2022-07/7a4ef009-5e56-4ede-a0e7-42b9e274c66d_Boys in a Dory.jpeg",
+        "test/2022-07/ccab07d4-9664-4fc1-937f-97fd9f69928b_A Bit of War History- The Recruit.jpeg"
+      ]
+    }
+  ]
 }

@@ -36,6 +36,7 @@ export const getPalettes = async ({
   start = 0,
 }: GetPalleteArgs): Promise<Palette[]> => {
   const session = driver?.session();
+  // TODO: implement sorting sources by upload date
   const palettesQuery = `
     MATCH (p:Palette)-[:INCLUDES]->(c:Color)
     WITH COLLECT({hex: c.hex,name:  c.name}) AS COLORS, p
@@ -43,6 +44,7 @@ export const getPalettes = async ({
     WITH COLLECT(s.name) as SOURCES, COLORS, p
     SKIP $start LIMIT $count
     RETURN COLORS AS colors, SOURCES as sources, p.name as name, p.id as id
+    ORDER BY p.createdAt DESC
   `;
 
   const readResults = await session?.readTransaction((tx) =>
@@ -96,6 +98,8 @@ export const getColorsList = async ({
 
 const writePaletteQuery = `
   MERGE (p:Palette {id: $id, name: $name})
+  ON CREATE
+    SET p.createdAt = timestamp()
   WITH p
   UNWIND $sources AS source
     MERGE (s:Source{name: source})
